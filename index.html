@@ -8,8 +8,9 @@
   </head>
 <body>
   <div class="ui container">
-    <form action="" id="addPlayers" class="ui equal width form">
-      <div class="fields">
+    <div class="ui hidden divider"></div>
+    <form action="" id="addPlayers" class="ui inline form">
+      <div class="five fields">
         <div class="field">
             <label for="firstName">First Name</label>
             <input type="text" name="firstName" id="firstName" placeholder="First Name">
@@ -27,12 +28,37 @@
           <input type="text" name="division" id="division" placeholder="Freshman, JV, Varsity, etc">
         </div>
       </div>
-      <button id="addPlayer">+</button>
-      <button type="button" id="downloadBtn">Download</button>
+      <button class="ui positive button" id="addPlayer">+</button>
     </form>
-  </div>
-</body>
-<script>
+    <div class="ui divider"></div>
+    <table class="ui compact celled definition table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Registration Date</th>
+          <th>E-mail address</th>
+          <th>Premium Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="collapsing">
+            <div class="ui fitted slider checkbox">
+              <input type="checkbox"> <label></label>
+            </div>
+          </td>
+          <td>John Lilki</td>
+          <td>September 14, 2013</td>
+          <td>jhlilk22@yahoo.com</td>
+          <td>No</td>
+        </tr>
+        </tbody>
+        </table>
+        <button type="button" id="downloadBtn">Download</button>
+      </div>
+    </body>
+    <script>
   const addPlayers = document.getElementById('addPlayers');
   const downloadBtn = document.getElementById('downloadBtn');
   const players = [];
