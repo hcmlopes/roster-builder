@@ -1,23 +1,25 @@
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css" />
-    <title>Roster Builder</title>
-  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css" />
+  <title>Roster Builder</title>
+</head>
+
 <body>
   <div class="ui container">
     <div class="ui hidden divider"></div>
     <form action="" id="addPlayers" class="ui inline form">
       <div class="five fields">
         <div class="field">
-            <label for="firstName">First Name</label>
-            <input type="text" name="firstName" id="firstName" placeholder="First Name">
+          <label for="firstName">First Name</label>
+          <input type="text" name="firstName" id="firstName" placeholder="First Name">
         </div>
         <div class="field">
-            <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" id="lastName" placeholder="Last Name">
+          <label for="lastName">Last Name</label>
+          <input type="text" name="lastName" id="lastName" placeholder="Last Name">
         </div>
         <div class="field">
           <label for="teamName">Team Name</label>
@@ -28,54 +30,128 @@
           <input type="text" name="division" id="division" placeholder="Freshman, JV, Varsity, etc">
         </div>
       </div>
-      <button class="ui positive button" id="addPlayer">+</button>
+      <button class="ui positive button" id="addPlayer-btn">+</button>
     </form>
     <div class="ui divider"></div>
     <table class="ui compact celled definition table">
       <thead>
         <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Registration Date</th>
-          <th>E-mail address</th>
-          <th>Premium Plan</th>
+          <th class="collapsing"><button class="ui gray button">x</button></th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Team Name</th>
+          <th>Division</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td class="collapsing">
-            <div class="ui fitted slider checkbox">
-              <input type="checkbox"> <label></label>
-            </div>
-          </td>
-          <td>John Lilki</td>
-          <td>September 14, 2013</td>
-          <td>jhlilk22@yahoo.com</td>
-          <td>No</td>
-        </tr>
-        </tbody>
-        </table>
-        <button type="button" id="downloadBtn">Download</button>
-      </div>
-    </body>
-    <script>
+      <tbody id="rosterTable">
+      </tbody>
+    </table>
+    <button type="button" id="downloadBtn">Download</button>
+  </div>
+</body>
+<script>
   const addPlayers = document.getElementById('addPlayers');
   const downloadBtn = document.getElementById('downloadBtn');
-  const players = [];
+  const rosterTable = document.getElementById('rosterTable');
+  const fields = addPlayers.querySelectorAll('input');
+  const roster = [];
+  let playerCount = 0;
 
-  function addToRoster (e) {
+  function addToRoster(e) {
     e.preventDefault();
-    const fields = this.querySelectorAll('input');
-    const player = {};
-    fields.forEach(function(field) {
+    const newPlayer = {};
+    fields.forEach(function (field) {
       const fieldName = field.name;
       const fieldValue = field.value;
-      player[field.name] = field.value;
+      newPlayer[field.name] = field.value;
     }, this);
-    players.push(player);
+    roster.push(newPlayer);  
+    displayRoster(roster);
   }
 
-  // downloadBtn.addEventListener('click', downloadRoster);
+  function removeFromRoster(e) {
+    if (e.target.id === "removePlayer-btn") {
+      const rowToDelete = e.target.parentNode.parentNode;
+      const rowIndex = rowToDelete.id;
+      rowToDelete.parentNode.removeChild(rowToDelete)
+      roster.splice(rowIndex, 1);
+      displayRoster(roster);
+    }
+      return
+  }
+
+  function displayRoster(roster) {
+    rosterTable.innerHTML = "";
+    roster.forEach(function(player, index){
+      const newElement = document.createElement('tr');
+      newElement.id = index;
+      newElement.innerHTML =
+        `
+          <td class="collapsing">
+            <button class="ui negative button" id="removePlayer-btn">x</button>
+          </td>
+          <td>${player.firstName}</td>
+          <td>${player.lastName}</td>
+          <td>${player.teamName}</td>
+          <td>${player.division}</td>
+      `;
+    rosterTable.appendChild(newElement);
+    })
+  }
+  function convertRosterToCSV(args) {  
+        let result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+        data = args.data || null;
+        if (data == null || !data.length) {
+            return null;
+        }
+
+        columnDelimiter = args.columnDelimiter || ',';
+        lineDelimiter = args.lineDelimiter || '\n';
+
+        keys = Object.keys(data[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function(item) {
+            ctr = 0;
+            keys.forEach(function(key) {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+                ctr++;
+            });
+            result += lineDelimiter;
+        });
+
+        return result;
+    }
+
+  function downloadCSV(args) {  
+    var data, filename, link;
+    var csv = convertRosterToCSV({
+        data: roster
+    });
+    if (csv == null) return;
+
+    filename = args.filename || 'roster.csv';
+
+    if (!csv.match(/^data:text\/csv/i)) {
+        csv = 'data:text/csv;charset=utf-8,' + csv;
+    }
+    data = encodeURI(csv);
+
+    link = document.createElement('a');
+    link.setAttribute('href', data);
+    link.setAttribute('download', filename);
+    link.click();
+}
+
+  downloadBtn.addEventListener('click', downloadCSV);
   addPlayers.addEventListener('submit', addToRoster);
+  rosterTable.addEventListener('click', removeFromRoster);
 </script>
+
 </html>
