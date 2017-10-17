@@ -11,6 +11,17 @@
 <body>
   <div class="ui container">
     <div class="ui hidden divider"></div>
+    <div id="rosterData">
+      <div class="field">
+        <label for="schoolName">School Name</label>
+        <input type="text" name="schoolName" id="schoolName" placeholder="School Name">
+      </div>
+      <div class="field">
+        <label for="teamName">Team Name</label>
+        <input type="text" name="teamName" id="teamName" placeholder="Team Name">
+      </div>
+    </div>
+    <div class="ui hidden divider"></div>
     <div id="addPlayers" class="ui inline form">
       <div class="five fields">
         <div class="field">
@@ -22,12 +33,12 @@
           <input type="text" name="lastName" id="lastName" placeholder="Last Name">
         </div>
         <div class="field">
-          <label for="teamName">Team Name</label>
-          <input type="text" name="teamName" id="teamName" placeholder="eg.: Girls Volleyball">
-        </div>
-        <div class="field">
           <label for="division">Division</label>
           <input type="text" name="division" id="division" placeholder="Freshman, JV, Varsity, etc">
+        </div>
+        <div class="field">
+          <label for="jerseyNumber">Jersey Number</label>
+          <input type="text" name="jerseyNumber" id="jerseyNumber" placeholder="eg.: Girls Volleyball">
         </div>
         <div class="field">
           <label>Add Player</label>
@@ -57,14 +68,15 @@
   const addPlayerBtn = document.getElementById('addPlayer-btn');
   const downloadBtn = document.getElementById('downloadBtn');
   const rosterTable = document.getElementById('rosterTable');
-  const fields = addPlayers.querySelectorAll('input');
+  const playerFields = addPlayers.querySelectorAll('input');
+  const rosterFields = rosterData.querySelectorAll('input');
   const roster = [];
   let playerCount = 0;
 
   function addToRoster(e) {
     e.preventDefault();
     const newPlayer = {};
-    fields.forEach(function (field) {
+    playerFields.forEach(function (field) {
       const fieldName = field.name;
       const fieldValue = field.value;
       newPlayer[field.name] = field.value;
@@ -93,7 +105,7 @@
         `
           <td>${player.firstName}</td>
           <td>${player.lastName}</td>
-          <td>${player.teamName}</td>
+          <td>${player.jerseyNumber}</td>
           <td>${player.division}</td>
           <td class="collapsing">
             <button class="ui negative button" id="removePlayer-btn">x</button>
@@ -153,7 +165,11 @@
     link.click();
 }
 
-  downloadBtn.addEventListener('click', downloadCSV);
+  downloadBtn.addEventListener('click', function(){
+    const schoolName = rosterFields[0].value;
+    const teamName = rosterFields[1].value;
+    downloadCSV({filename: `${schoolName}_${teamName}`});
+  });
   addPlayerBtn.addEventListener('click', addToRoster);
   rosterTable.addEventListener('click', removeFromRoster);
 </script>
