@@ -11,7 +11,7 @@
 <body>
   <div class="ui container">
     <div class="ui hidden divider"></div>
-    <form action="" id="addPlayers" class="ui inline form">
+    <div id="addPlayers" class="ui inline form">
       <div class="five fields">
         <div class="field">
           <label for="firstName">First Name</label>
@@ -29,18 +29,21 @@
           <label for="division">Division</label>
           <input type="text" name="division" id="division" placeholder="Freshman, JV, Varsity, etc">
         </div>
+        <div class="field">
+          <label>Add Player</label>
+          <div class="ui positive button" id="addPlayer-btn">+</button>
+        </div>
       </div>
-      <button class="ui positive button" id="addPlayer-btn">+</button>
-    </form>
+    </div>
     <div class="ui divider"></div>
-    <table class="ui compact celled definition table">
+    <table class="ui compact celled table">
       <thead>
         <tr>
-          <th class="collapsing"><button class="ui gray button">x</button></th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>Team Name</th>
           <th>Division</th>
+          <th class="collapsing"><button class="ui gray disabled button">x</button></th>
         </tr>
       </thead>
       <tbody id="rosterTable">
@@ -51,6 +54,7 @@
 </body>
 <script>
   const addPlayers = document.getElementById('addPlayers');
+  const addPlayerBtn = document.getElementById('addPlayer-btn');
   const downloadBtn = document.getElementById('downloadBtn');
   const rosterTable = document.getElementById('rosterTable');
   const fields = addPlayers.querySelectorAll('input');
@@ -87,13 +91,13 @@
       newElement.id = index;
       newElement.innerHTML =
         `
-          <td class="collapsing">
-            <button class="ui negative button" id="removePlayer-btn">x</button>
-          </td>
           <td>${player.firstName}</td>
           <td>${player.lastName}</td>
           <td>${player.teamName}</td>
           <td>${player.division}</td>
+          <td class="collapsing">
+            <button class="ui negative button" id="removePlayer-btn">x</button>
+          </td>
       `;
     rosterTable.appendChild(newElement);
     })
@@ -150,7 +154,7 @@
 }
 
   downloadBtn.addEventListener('click', downloadCSV);
-  addPlayers.addEventListener('submit', addToRoster);
+  addPlayerBtn.addEventListener('click', addToRoster);
   rosterTable.addEventListener('click', removeFromRoster);
 </script>
 
