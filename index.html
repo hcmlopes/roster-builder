@@ -71,8 +71,7 @@
   const playerFields = addPlayers.querySelectorAll('input');
   const rosterFields = rosterData.querySelectorAll('input');
   const roster = [];
-  let playerCount = 0;
-
+  
   function addToRoster(e) {
     e.preventDefault();
     const newPlayer = {};
@@ -114,6 +113,7 @@
     rosterTable.appendChild(newElement);
     })
   }
+
   function convertRosterToCSV(args) {  
         let result, ctr, keys, columnDelimiter, lineDelimiter, data;
 
@@ -163,7 +163,7 @@
     link.setAttribute('href', data);
     link.setAttribute('download', filename);
     link.click();
-}
+  }
 
   downloadBtn.addEventListener('click', function(){
     const schoolName = rosterFields[0].value;
