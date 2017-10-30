@@ -12,11 +12,28 @@ function addToRoster(e) {
   playerFields.forEach(function(field) {
     const fieldName = field.name;
     const fieldValue = field.value;
-    newPlayer[field.name] = field.value;
+    newPlayer[fieldName] = field.value;
   }, this);
   roster.push(newPlayer);
   displayRoster(roster);
+  clearPlayerFields(playerFields);
+  playerFields[0].focus();
 }
+
+function clearPlayerFields(fields){
+  return fields.forEach(field => field.value = "")
+}
+
+function newRoster(){
+  let ask = confirm("Everything will be lost. Are you sure?");
+  if (ask){
+    // roster = [];
+    // return document.querySelectorAll("input").forEach(field =>field.value = "");
+    window.location.reload();
+  }
+  return
+}
+
 
 function removeFromRoster(e) {
   if (e.target.id === "removePlayer-btn") {
@@ -103,5 +120,6 @@ downloadBtn.addEventListener("click", function() {
   const teamName = rosterFields[1].value;
   downloadCSV({ filename: `${schoolName}_${teamName}` });
 });
+
 addPlayerBtn.addEventListener("click", addToRoster);
 rosterTable.addEventListener("click", removeFromRoster);

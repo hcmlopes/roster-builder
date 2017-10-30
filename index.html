@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- <link rel="stylesheet" href="./reset.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css" />
   <link rel="stylesheet" href="./style.css" />
     <title>Roster Builder</title>
@@ -15,31 +14,33 @@
     <h1 class="ui header borderless item">
       <div class="content">
         Roster Builder
-        <div class="sub header">description</div>
+        <div class="sub header">Create a team roster to share with your photographer.</div>
       </div>
     </h1>
     <div class="right menu">
       <div class="borderless item">
-        <button class="ui primary button">NEW</button>
+        <button class="ui secondary button" onclick="newRoster()">NEW</button>
       </div>
       <div class="borderless item"></div>
     </div>
   </nav>
   <div class="ui container">
     <div class="ui hidden divider"></div>
-    <div id="rosterData">
-      <div class="field">
-        <label for="schoolName">School Name</label>
-        <input type="text" name="schoolName" id="schoolName" placeholder="School Name">
-      </div>
-      <div class="field">
-        <label for="teamName">Team Name</label>
-        <input type="text" name="teamName" id="teamName" placeholder="Team Name">
+    <div id="rosterData" class="ui huge form">
+      <div class="two fields">
+        <div class="field">
+          <label for="schoolName">School Name</label>
+          <input type="text" name="schoolName" id="schoolName" placeholder="School Name" autofocus>
+        </div>
+        <div class="field">
+          <label for="teamName">Team Name</label>
+          <input type="text" name="teamName" id="teamName" placeholder="Team Name">
+        </div>
       </div>
     </div>
-    <div class="ui hidden divider"></div>
-    <div id="addPlayers" class="ui inline form">
-      <div class="five fields">
+    <div class="ui divider"></div>
+    <div id="addPlayers" class="ui equal width form">
+      <div class="fields">
         <div class="field">
           <label for="firstName">First Name</label>
           <input type="text" name="firstName" id="firstName" placeholder="First Name">
@@ -49,17 +50,16 @@
           <input type="text" name="lastName" id="lastName" placeholder="Last Name">
         </div>
         <div class="field">
+          <label for="jerseyNumber">Jersey Number</label>
+          <input type="text" name="jerseyNumber" id="jerseyNumber" placeholder="12">
+        </div>
+        <div class="field">
           <label for="division">Division</label>
           <input type="text" name="division" id="division" placeholder="Freshman, JV, Varsity, etc">
         </div>
-        <div class="field">
-          <label for="jerseyNumber">Jersey Number</label>
-          <input type="text" name="jerseyNumber" id="jerseyNumber" placeholder="eg.: Girls Volleyball">
-        </div>
-        <div class="field">
-          <label>Add Player</label>
-          <div class="ui positive button" id="addPlayer-btn">+</button>
-          </div>
+        <div class="two wide field">
+          <label>Add</label>
+          <button class="ui positive button" id="addPlayer-btn">+</button>
         </div>
       </div>
       <div class="ui divider"></div>
@@ -68,7 +68,7 @@
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Team Name</th>
+            <th>Jersey Number</th>
             <th>Division</th>
             <th class="collapsing">
               <button class="ui gray disabled button">x</button>
@@ -78,9 +78,10 @@
         <tbody id="rosterTable">
         </tbody>
       </table>
-      <button type="button" id="downloadBtn">Download</button>
+      <div class="ui center aligned container">
+        <button type="button" id="downloadBtn" class="ui massive primary button">Download</button>
+      </div>
     </div>
 </body>
 <script src="./roster.js"></script>
-
 </html>
