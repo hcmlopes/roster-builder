@@ -10,10 +10,11 @@ function addToRoster(e) {
   e.preventDefault();
   const newPlayer = {};
   playerFields.forEach(function(field) {
-    const fieldName = field.name;
+    const fieldName = field.labels[0].innerText;
     const fieldValue = field.value;
     newPlayer[fieldName] = field.value;
   }, this);
+  newPlayer['Team Name'] = rosterFields[1].value;
   roster.push(newPlayer);
   displayRoster(roster);
   clearPlayerFields(playerFields);
@@ -52,10 +53,10 @@ function displayRoster(roster) {
     const newElement = document.createElement("tr");
     newElement.id = index;
     newElement.innerHTML = `
-          <td>${player.firstName}</td>
-          <td>${player.lastName}</td>
-          <td>${player.jerseyNumber}</td>
-          <td>${player.division}</td>
+          <td>${player['First Name']}</td>
+          <td>${player['Last Name']}</td>
+          <td>${player['Jersey Number']}</td>
+          <td>${player.Division}</td>
           <td class="collapsing">
             <button class="ui negative button" id="removePlayer-btn">x</button>
           </td>
@@ -101,7 +102,7 @@ function downloadCSV(args) {
     data: roster
   });
   if (csv == null) return;
-
+  
   filename = args.filename || "roster.csv";
 
   if (!csv.match(/^data:text\/csv/i)) {
@@ -116,9 +117,11 @@ function downloadCSV(args) {
 }
 
 downloadBtn.addEventListener("click", function() {
-  const schoolName = rosterFields[0].value;
-  const teamName = rosterFields[1].value;
-  downloadCSV({ filename: `${schoolName}_${teamName}` });
+  if (rosterFields[0].value) {
+    const schoolName = rosterFields[0].value;
+    const teamName = rosterFields[1].value;
+    downloadCSV({ filename: `${schoolName}_${teamName}.csv` });
+  }
 });
 
 addPlayerBtn.addEventListener("click", addToRoster);
