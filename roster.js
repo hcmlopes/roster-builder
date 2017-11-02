@@ -9,7 +9,7 @@ const roster = [];
 function addToRoster(e) {
   e.preventDefault();
   const newPlayer = {};
-  playerFields.forEach(function(field) {
+  playerFields.forEach(function (field) {
     const fieldName = field.labels[0].innerText;
     const fieldValue = field.value;
     newPlayer[fieldName] = field.value;
@@ -20,14 +20,14 @@ function addToRoster(e) {
   clearFields(playerFields);
 }
 
-function clearFields(fields){
+function clearFields(fields) {
   playerFields[0].focus();
   return fields.forEach(field => field.value = "")
 }
 
-function newRoster(){
+function newRoster() {
   let ask = confirm("Everything will be lost. Are you sure?");
-  if (ask){
+  if (ask) {
     // roster = [];
     // return document.querySelectorAll("input").forEach(field =>field.value = "");
     window.location.reload();
@@ -49,7 +49,7 @@ function removeFromRoster(e) {
 
 function displayRoster(roster) {
   rosterTable.innerHTML = "";
-  return roster.forEach(function(player, index) {
+  return roster.forEach(function (player, index) {
     const newElement = document.createElement("tr");
     newElement.id = index;
     newElement.innerHTML = `
@@ -82,9 +82,9 @@ function convertRosterToCSV(args) {
   result += keys.join(columnDelimiter);
   result += lineDelimiter;
 
-  data.forEach(function(item) {
+  data.forEach(function (item) {
     ctr = 0;
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
       if (ctr > 0) result += columnDelimiter;
 
       result += item[key];
@@ -102,7 +102,7 @@ function downloadCSV(args) {
     data: roster
   });
   if (csv == null) return;
-  
+
   filename = args.filename || "roster.csv";
 
   if (!csv.match(/^data:text\/csv/i)) {
@@ -117,7 +117,7 @@ function downloadCSV(args) {
 }
 
 // Event listeners for buttons
-downloadBtn.addEventListener("click", function() {
+downloadBtn.addEventListener("click", function () {
   if (rosterFields[0].value && rosterFields[1].value) {
     const schoolName = rosterFields[0].value;
     const teamName = rosterFields[1].value;
