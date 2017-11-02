@@ -17,11 +17,11 @@ function addToRoster(e) {
   newPlayer['Team Name'] = rosterFields[1].value;
   roster.push(newPlayer);
   displayRoster(roster);
-  clearPlayerFields(playerFields);
-  playerFields[0].focus();
+  clearFields(playerFields);
 }
 
-function clearPlayerFields(fields){
+function clearFields(fields){
+  playerFields[0].focus();
   return fields.forEach(field => field.value = "")
 }
 
@@ -35,8 +35,8 @@ function newRoster(){
   return
 }
 
-
 function removeFromRoster(e) {
+  //only deletes a player if the actual delete button is clicked
   if (e.target.id === "removePlayer-btn") {
     const rowToDelete = e.target.parentNode.parentNode;
     const rowIndex = rowToDelete.id;
@@ -49,7 +49,7 @@ function removeFromRoster(e) {
 
 function displayRoster(roster) {
   rosterTable.innerHTML = "";
-  roster.forEach(function(player, index) {
+  return roster.forEach(function(player, index) {
     const newElement = document.createElement("tr");
     newElement.id = index;
     newElement.innerHTML = `
@@ -116,8 +116,9 @@ function downloadCSV(args) {
   link.click();
 }
 
+// Event listeners for buttons
 downloadBtn.addEventListener("click", function() {
-  if (rosterFields[0].value) {
+  if (rosterFields[0].value && rosterFields[1].value) {
     const schoolName = rosterFields[0].value;
     const teamName = rosterFields[1].value;
     downloadCSV({ filename: `${schoolName}_${teamName}.csv` });
