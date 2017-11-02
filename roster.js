@@ -8,6 +8,7 @@ const roster = [];
 
 function addToRoster(e) {
   e.preventDefault();
+  if (!playerFields[0].value || !playerFields[1].value || !playerFields[3].value) { return }
   const newPlayer = {};
   playerFields.forEach(function (field) {
     const fieldName = field.labels[0].innerText;
