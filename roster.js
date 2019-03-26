@@ -2,13 +2,15 @@ const addPlayers = document.getElementById("addPlayers");
 const addPlayerBtn = document.getElementById("addPlayer-btn");
 const downloadBtn = document.getElementById("downloadBtn");
 const rosterTable = document.getElementById("rosterTable");
-const playerFields = addPlayers.querySelectorAll("input");
-const rosterFields = rosterData.querySelectorAll("input");
+const playerFields = addPlayers.querySelectorAll("input, select");
+const rosterFields = rosterData.querySelectorAll("input, select");
 const roster = [];
 
 function addToRoster(e) {
   e.preventDefault();
-  if (!playerFields[0].value || !playerFields[1].value || !playerFields[3].value) { return }
+  if (!playerFields[0].value || !playerFields[1].value || !playerFields[3].value) {
+    return
+  }
   const newPlayer = {};
   playerFields.forEach(function (field) {
     const fieldName = field.labels[0].innerText;
@@ -122,7 +124,10 @@ downloadBtn.addEventListener("click", function () {
   if (rosterFields[0].value && rosterFields[1].value) {
     const schoolName = rosterFields[0].value;
     const teamName = rosterFields[1].value;
-    downloadCSV({ filename: `${schoolName}_${teamName}.csv` });
+    const gender = rosterFields[2].value;
+    downloadCSV({
+      filename: `${schoolName}_${teamName}_${gender}.csv`
+    });
   }
 });
 

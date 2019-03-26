@@ -37,6 +37,13 @@
           <label for="teamName">Team Name</label>
           <input type="text" name="teamName" id="teamName" placeholder="Team Name">
         </div>
+        <div class="field">
+          <label for="gender">Gender</label>
+          <select name="gender" id="gender">
+            <option value="boys">Boys</option>
+            <option value="girls">Girls</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="ui divider"></div>
@@ -56,7 +63,11 @@
         </div>
         <div class="field">
           <label for="division">Division</label>
-          <input type="text" name="division" id="division" placeholder="Freshman, JV, Varsity, etc">
+          <select name="division" id="division">
+            <option value="varsity">Varsity</option>
+            <option value="jv">JV</option>
+            <option value="freshman">Freshman</option>
+          </select>
         </div>
         <div class="two wide field">
           <label>Add</label>
